@@ -138,11 +138,11 @@ class Game:
             # self.player.draw(self.canvas.get_canvas())
             # self.player2.draw(self.canvas.get_canvas())
 
-            test, self.tour = self.parse_data(self.send_data())
+            grille, self.tour = self.parse_data(self.send_data())
 
-            if test != 5:
+            if grille != 5:
                 for i in range(len(self.grille)):
-                    self.grille[i] = int(test[i])
+                    self.grille[i] = int(grille[i])
 
             # Update Canvas
             self.update_grille(self.grille, rond, croix)
@@ -214,27 +214,28 @@ class Game:
                     self.canvas.screen.blit(croix, (332, 332))
 
     def chek_win(self, grille):
+
         i = 0
         while i < 9:
             if grille[i] == 1:
                 if grille[i] == grille[i+1] == grille[i+2]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (83 + (i * 55), 20), (83 + (i * 55), 480), 10)
-                    print("Victoire du joueur 1")
+                    return print("Victoire du joueur 1")
             if grille[i] == 2:
                 if grille[i] == grille[i+1] == grille[i+2]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (83 + (i * 55), 20), (83 + (i * 55), 480), 10)
-                    print("Victoire du joueur 2")
+                    return print("Victoire du joueur 2")
             i += 3
         i = 0
         while i < 3:
             if grille[i] == 1:
                 if grille[i] == grille[i+3] == grille[i+6]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (20, 83 + (i * 166)), (480, 83 + (i * 166)), 10)
-                    print("Victoire du joueur 1")
+                    return print("Victoire du joueur 1")
             if grille[i] == 2:
                 if grille[i] == grille[i+3] == grille[i+6]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (20, 83 + (i * 166)), (480, 83 + (i * 166)), 10)
-                    print("Victoire du joueur 2")
+                    return print("Victoire du joueur 2")
             i += 1
 
         i = 0
@@ -242,11 +243,12 @@ class Game:
             if grille[i] == 1:
                 if grille[i] == grille[i+4] == grille[i+8]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (50, 50), (450, 450), 10)
-                    print("Victoire du joueur 1")
+                    return print("Victoire du joueur 1")
+
             if grille[i] == 2:
                 if grille[i] == grille[i+4] == grille[i+8]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (50, 50), (450, 450), 10)
-                    print("Victoire du joueur 2")
+                    return print("Victoire du joueur 2")
             i += 2
 
         i = 2
@@ -254,12 +256,23 @@ class Game:
             if grille[i] == 1:
                 if grille[i] == grille[i+2] == grille[i+4]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (450, 50), (50, 450), 10)
-                    print("Victoire du joueur 1")
+                    return print("Victoire du joueur 1")
             if grille[i] == 2:
                 if grille[i] == grille[i+2] == grille[i+4]:
                     pygame.draw.line(self.canvas.screen, (255, 0, 0), (450, 50), (50, 450), 10)
-                    print("Victoire du joueur 2")
+                    return print("Victoire du joueur 2")
             i += 2
+
+        i = 0
+        count = 0
+        while i < 9:
+            if grille[i] == 0:
+                count += 1
+            i += 1
+        if count == 0:
+            return print("Egalité !")
+
+
 
 class Canvas:
 
