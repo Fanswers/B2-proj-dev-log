@@ -100,6 +100,48 @@ class Game:
                     self.canvas.screen.blit(croix, (332, 166))
                 if i == 8:
                     self.canvas.screen.blit(croix, (332, 332))
+                    
+    def chek_win(self, grille):
+        i = 0
+        while i < 9:
+            if grille[i] == 1:
+                if grille[i] == grille[i+1] == grille[i+2]:
+                    print("Victoire du joueur 1")
+            if grille[i] == 2:
+                if grille[i] == grille[i+1] == grille[i+2]:
+                    print("Victoire du joueur 2")
+            i += 3
+
+        i = 0
+        while i < 3:
+            if grille[i] == 1:
+                if grille[i] == grille[i+3] == grille[i+6]:
+                    print("Victoire du joueur 1")
+            if grille[i] == 2:
+                if grille[i] == grille[i+3] == grille[i+6]:
+                    print("Victoire du joueur 2")
+            i += 1
+
+        i = 0
+        while i < 1:
+            if grille[i] == 1:
+                if grille[i] == grille[i+4] == grille[i+8]:
+                    print("Victoire du joueur 1")
+            if grille[i] == 2:
+                if grille[i] == grille[i+4] == grille[i+8]:
+                    print("Victoire du joueur 2")
+            i += 2
+
+        i = 2
+        while i < 3:
+            if grille[i] == 1:
+                if grille[i] == grille[i+2] == grille[i+4]:
+                    print("Victoire du joueur 1")
+            if grille[i] == 2:
+                if grille[i] == grille[i+2] == grille[i+4]:
+                    print("Victoire du joueur 2")
+            i += 2
+
 
 class FenetreConnexion:
 
