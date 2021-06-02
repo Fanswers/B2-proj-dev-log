@@ -18,8 +18,7 @@ s.listen(2)
 print("Waiting for a connection")
 
 currentId = "0"
-pos = ["0:50,50", "1:100,100"]
-grille2 = ["0:[0,0,0,0,0,0,0,0,0]","1:[0,0,0,0,0,0,0,0,0]"]
+grille2 = ["0:[0,0,0,0,0,0,0,0,0]/0","1:[0,0,0,0,0,0,0,0,0]/0"]
 
 def threaded_client(conn,):
     global currentId, pos, grille

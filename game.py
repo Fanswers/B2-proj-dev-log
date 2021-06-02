@@ -42,18 +42,15 @@ class Game:
 
     def run(self):
 
-
         self.canvas.draw_background()
         clock = pygame.time.Clock()
         run = True
-
 
         # Initialisation des images
         rond = pygame.image.load("img/rond.png")
         rond = pygame.transform.scale(rond, (120, 120))
         croix = pygame.image.load("img/croix.png")
         croix = pygame.transform.scale(croix, (180, 180))
-        test = 5
 
         while run:
             clock.tick(60)
@@ -74,76 +71,79 @@ class Game:
                             if self.net.id == '1' and self.grille[0] == 0 and self.tour == 1:
                                 self.grille[0] = 1
                                 self.tour = 0
-                                test = self.parse_data(self.send_data())
                             elif self.net.id == '0' and self.grille[0] == 0 and self.tour == 0:
                                 self.grille[0] = 2
                                 self.tour = 1
-                                test = self.parse_data(self.send_data())
                         elif pos[1] <= 332:
                             if self.net.id == '1' and self.grille[1] == 0 and self.tour == 1:
                                 self.grille[1] = 1
                                 self.tour = 0
-                                test = self.parse_data(self.send_data())
                             elif self.net.id == '0' and self.grille[1] == 0 and self.tour == 0:
                                 self.grille[1] = 2
                                 self.tour = 1
-                                test = self.parse_data(self.send_data())
                         elif pos[1] > 332:
                             if self.net.id == '1' and self.grille[2] == 0 and self.tour == 1:
                                 self.grille[2] = 1
                                 self.tour = 0
-                                test = self.parse_data(self.send_data())
                             elif self.net.id == '0' and self.grille[2] == 0 and self.tour == 0:
                                 self.grille[2] = 2
                                 self.tour = 1
-                                test = self.parse_data(self.send_data())
                     elif pos[0] < 332:
                         if pos[1] < 166:
                             if self.net.id == '1' and self.grille[3] == 0 and self.tour == 1:
                                 self.grille[3] = 1
+                                self.tour = 0
                             elif self.net.id == '0' and self.grille[3] == 0 and self.tour == 0:
                                 self.grille[3] = 2
+                                self.tour = 1
                         elif pos[1] <= 332:
-                            if self.net.id == '1' and self.grille[4] == 0:
+                            if self.net.id == '1' and self.grille[4] == 0 and self.tour == 1:
                                 self.grille[4] = 1
-                            elif self.net.id == '0' and self.grille[4] == 0:
+                                self.tour = 0
+                            elif self.net.id == '0' and self.grille[4] == 0 and self.tour == 0:
                                 self.grille[4] = 2
+                                self.tour = 1
                         elif pos[1] > 332:
-                            if self.net.id == '1' and self.grille[5] == 0:
+                            if self.net.id == '1' and self.grille[5] == 0 and self.tour == 1:
                                 self.grille[5] = 1
-                            elif self.net.id == '0' and self.grille[5] == 0:
+                                self.tour = 0
+                            elif self.net.id == '0' and self.grille[5] == 0 and self.tour == 0:
                                 self.grille[5] = 2
+                                self.tour = 1
                     elif pos[0] > 332:
                         if pos[1] < 166:
-                            if self.net.id == '1' and self.grille[6] == 0:
+                            if self.net.id == '1' and self.grille[6] == 0 and self.tour == 1:
                                 self.grille[6] = 1
-                            elif self.net.id == '0' and self.grille[6] == 0:
+                                self.tour = 0
+                            elif self.net.id == '0' and self.grille[6] == 0 and self.tour == 0:
                                 self.grille[6] = 2
+                                self.tour = 1
                         elif pos[1] <= 332:
-                            if self.net.id == '1' and self.grille[7] == 0:
+                            if self.net.id == '1' and self.grille[7] == 0 and self.tour == 1:
                                 self.grille[7] = 1
-                            elif self.net.id == '0' and self.grille[7] == 0:
+                                self.tour = 0
+                            elif self.net.id == '0' and self.grille[7] == 0 and self.tour == 0:
                                 self.grille[7] = 2
+                                self.tour = 1
                         elif pos[1] > 332:
-                            if self.net.id == '1' and self.grille[8] == 0:
+                            if self.net.id == '1' and self.grille[8] == 0 and self.tour == 1:
                                 self.grille[8] = 1
-                            elif self.net.id == '0' and self.grille[8] == 0:
+                                self.tour = 0
+                            elif self.net.id == '0' and self.grille[8] == 0 and self.tour == 0:
                                 self.grille[8] = 2
+                                self.tour = 1
 
             # Send Network Stuff
             # self.player2.x, self.player2.y = self.parse_data(self.send_data())
 
             # self.player.draw(self.canvas.get_canvas())
             # self.player2.draw(self.canvas.get_canvas())
-            # test = str(self.grille)[1:-1].split(",")
 
-            test = self.parse_data(self.send_data())
-            print(test)
+            test, self.tour = self.parse_data(self.send_data())
 
             if test != 5:
                 for i in range(len(self.grille)):
                     self.grille[i] = int(test[i])
-
 
             # Update Canvas
             self.update_grille(self.grille, rond, croix)
@@ -157,19 +157,19 @@ class Game:
         :return: None
         """
 
-        coup = str(self.net.id) + ":" + str(self.grille)
+        coup = str(self.net.id) + ":" + str(self.grille) + "/" + str(self.tour)
         reply = self.net.send(coup)
         return reply
 
     @staticmethod
     def parse_data(data):
         try:
-
-            test = str(data.split(":")[1])[1:-1].split(",")
-            grille = [0,0,0,0,0,0,0,0,0]
-            for i in range(len(grille)):
-                grille[i] = int(test[i])
-            return grille
+            grille = str(data.split(":")[1]).split("/")[0][1:-1].split(",")
+            tour = str(data.split(":")[1]).split("/")[1]
+            grille2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+            for i in range(len(grille2)):
+                grille2[i] = int(grille[i])
+            return grille2, int(tour)
         except:
             return 0
 
