@@ -1,4 +1,4 @@
 import game
 
-g = game.Game(500,500)
-g.run()
+f = game.Connexion(500,500)
+f.run()
