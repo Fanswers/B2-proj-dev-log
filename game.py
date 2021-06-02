@@ -58,18 +58,21 @@ class Connexion:
 
             # Update Canvas
             self.canvas.draw_background()
-            b1 = self.button(self.canvas.screen, (100, 200), 'connexion')
-            b2 = self.button(self.canvas.screen, (300, 200), 'deconnexion')
+            b1 = self.button(self.canvas.screen, (50, 200), 'Rechercher une partie')
             self.canvas.update()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.net.send("deconnexion")
                     run = False
 
                 if event.type == pygame.K_ESCAPE:
-                    self.net.send("deconnexion")
                     run = False
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if b1.collidepoint(pygame.mouse.get_pos()):
+                        pygame.quit()
+                        g = Game(500,500)
+                        g.run()
 
 class FenetreConnexion:
 
@@ -118,9 +121,15 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                    self.net.client.close()
+                    c = Connexion(500,500)
+                    c.run()
 
                 if event.type == pygame.K_ESCAPE:
                     run = False
+                    self.net.client.close()
+                    c = Connexion(500, 500)
+                    c.run()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed() == (1, 0, 0):
