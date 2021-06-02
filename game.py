@@ -19,13 +19,13 @@ class Game:
         rond = pygame.transform.scale(rond, (120, 120))
         croix = pygame.image.load("img/croix.png")
         croix = pygame.transform.scale(croix, (180, 180))
+        player1 = True
         while run:
             clock.tick(60)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-
                 if event.type == pygame.K_ESCAPE:
                     run = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -34,36 +34,72 @@ class Game:
                         print(pos)
                         if pos[0] < 166:
                             if pos[1] < 166:
-                                self.canvas.screen.blit(rond, (25, 25))
-
+                                if player1:
+                                    self.canvas.screen.blit(rond, (25, 25))
+                                else:
+                                    self.canvas.screen.blit(croix, (0, 0))
                             elif pos[1] <= 332:
                                 self.canvas.screen.blit(rond, (25, 191))
-
                             elif pos[1] > 332:
                                 self.canvas.screen.blit(rond, (25, 357))
-
                         elif pos[0] < 332:
                             if pos[1] < 166:
                                 self.canvas.screen.blit(croix, (166, 0))
-
                             elif pos[1] <= 332:
                                 self.canvas.screen.blit(croix, (166, 166))
-
                             elif pos[1] > 332:
                                 self.canvas.screen.blit(croix, (166, 332))
-
                         elif pos[0] > 332:
                             if pos[1] < 166:
                                 self.canvas.screen.blit(croix, (332, 0))
-
                             elif pos[1] <= 332:
                                 self.canvas.screen.blit(croix, (332, 166))
-
                             elif pos[1] > 332:
                                 self.canvas.screen.blit(croix, (332, 332))
 
             # Update Canvas
             self.canvas.update()
+
+    def update_grille(self, grille, rond, croix):
+        for i in range(len(grille)):
+            if grille[i] == 1:
+                if i == 0:
+                    self.canvas.screen.blit(rond, (25, 25))
+                elif i == 1:
+                    self.canvas.screen.blit(rond, (25, 191))
+                elif i == 2:
+                    self.canvas.screen.blit(rond, (25, 357))
+                elif i == 3:
+                    self.canvas.screen.blit(rond, (191, 25))
+                elif i == 4:
+                    self.canvas.screen.blit(rond, (191, 191))
+                elif i == 5:
+                    self.canvas.screen.blit(rond, (191, 357))
+                elif i == 6:
+                    self.canvas.screen.blit(rond, (357, 25))
+                elif i == 7:
+                    self.canvas.screen.blit(rond, (357, 191))
+                elif i == 8:
+                    self.canvas.screen.blit(rond, (357, 357))
+            if grille[i] == 2:
+                if i == 0:
+                    self.canvas.screen.blit(croix, (0, 0))
+                if i == 1:
+                    self.canvas.screen.blit(croix, (0, 166))
+                if i == 2:
+                    self.canvas.screen.blit(croix, (0, 332))
+                if i == 3:
+                    self.canvas.screen.blit(croix, (166, 0))
+                if i == 4:
+                    self.canvas.screen.blit(croix, (166, 166))
+                if i == 5:
+                    self.canvas.screen.blit(croix, (166, 332))
+                if i == 6:
+                    self.canvas.screen.blit(croix, (332, 0))
+                if i == 7:
+                    self.canvas.screen.blit(croix, (332, 166))
+                if i == 8:
+                    self.canvas.screen.blit(croix, (332, 332))
 
 class FenetreConnexion:
 
