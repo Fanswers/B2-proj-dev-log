@@ -1,5 +1,8 @@
 import game
+import BDD
 
-if __name__ == "__main__":
-    g = game.Game(500,500)
-    g.run()
+#BDD.Connection()
+c = game.Connexion(500,500)
+c.run()
+
+
