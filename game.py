@@ -1,4 +1,5 @@
 import pygame
+import time
 from network import Network
 
 
@@ -44,110 +45,116 @@ class Game:
         self.canvas.draw_background()
         clock = pygame.time.Clock()
         run = True
+        wait = True
 
         # Initialisation des images
         rond = pygame.image.load("img/rond.png")
         rond = pygame.transform.scale(rond, (120, 120))
         croix = pygame.image.load("img/croix.png")
         croix = pygame.transform.scale(croix, (180, 180))
+        if self.net.id == '0' or self.net.id == '1':
+            while run:
+                clock.tick(60)
 
-        while run:
-            clock.tick(60)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        run = False
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
+                    if event.type == pygame.K_ESCAPE:
+                        run = False
 
-                if event.type == pygame.K_ESCAPE:
-                    run = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if pygame.mouse.get_pressed() == (1, 0, 0):
+                        pos = pygame.mouse.get_pos()
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed() == (1, 0, 0):
-                    pos = pygame.mouse.get_pos()
+                        if pos[0] < 166:
+                            if pos[1] < 166:
+                                if self.net.id == '1' and self.grille[0] == 0 and self.tour == 1:
+                                    self.grille[0] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[0] == 0 and self.tour == 0:
+                                    self.grille[0] = 2
+                                    self.tour = 1
+                            elif pos[1] <= 332:
+                                if self.net.id == '1' and self.grille[1] == 0 and self.tour == 1:
+                                    self.grille[1] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[1] == 0 and self.tour == 0:
+                                    self.grille[1] = 2
+                                    self.tour = 1
+                            elif pos[1] > 332:
+                                if self.net.id == '1' and self.grille[2] == 0 and self.tour == 1:
+                                    self.grille[2] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[2] == 0 and self.tour == 0:
+                                    self.grille[2] = 2
+                                    self.tour = 1
+                        elif pos[0] < 332:
+                            if pos[1] < 166:
+                                if self.net.id == '1' and self.grille[3] == 0 and self.tour == 1:
+                                    self.grille[3] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[3] == 0 and self.tour == 0:
+                                    self.grille[3] = 2
+                                    self.tour = 1
+                            elif pos[1] <= 332:
+                                if self.net.id == '1' and self.grille[4] == 0 and self.tour == 1:
+                                    self.grille[4] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[4] == 0 and self.tour == 0:
+                                    self.grille[4] = 2
+                                    self.tour = 1
+                            elif pos[1] > 332:
+                                if self.net.id == '1' and self.grille[5] == 0 and self.tour == 1:
+                                    self.grille[5] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[5] == 0 and self.tour == 0:
+                                    self.grille[5] = 2
+                                    self.tour = 1
+                        elif pos[0] > 332:
+                            if pos[1] < 166:
+                                if self.net.id == '1' and self.grille[6] == 0 and self.tour == 1:
+                                    self.grille[6] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[6] == 0 and self.tour == 0:
+                                    self.grille[6] = 2
+                                    self.tour = 1
+                            elif pos[1] <= 332:
+                                if self.net.id == '1' and self.grille[7] == 0 and self.tour == 1:
+                                    self.grille[7] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[7] == 0 and self.tour == 0:
+                                    self.grille[7] = 2
+                                    self.tour = 1
+                            elif pos[1] > 332:
+                                if self.net.id == '1' and self.grille[8] == 0 and self.tour == 1:
+                                    self.grille[8] = 1
+                                    self.tour = 0
+                                elif self.net.id == '0' and self.grille[8] == 0 and self.tour == 0:
+                                    self.grille[8] = 2
+                                    self.tour = 1
 
-                    if pos[0] < 166:
-                        if pos[1] < 166:
-                            if self.net.id == '1' and self.grille[0] == 0 and self.tour == 1:
-                                self.grille[0] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[0] == 0 and self.tour == 0:
-                                self.grille[0] = 2
-                                self.tour = 1
-                        elif pos[1] <= 332:
-                            if self.net.id == '1' and self.grille[1] == 0 and self.tour == 1:
-                                self.grille[1] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[1] == 0 and self.tour == 0:
-                                self.grille[1] = 2
-                                self.tour = 1
-                        elif pos[1] > 332:
-                            if self.net.id == '1' and self.grille[2] == 0 and self.tour == 1:
-                                self.grille[2] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[2] == 0 and self.tour == 0:
-                                self.grille[2] = 2
-                                self.tour = 1
-                    elif pos[0] < 332:
-                        if pos[1] < 166:
-                            if self.net.id == '1' and self.grille[3] == 0 and self.tour == 1:
-                                self.grille[3] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[3] == 0 and self.tour == 0:
-                                self.grille[3] = 2
-                                self.tour = 1
-                        elif pos[1] <= 332:
-                            if self.net.id == '1' and self.grille[4] == 0 and self.tour == 1:
-                                self.grille[4] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[4] == 0 and self.tour == 0:
-                                self.grille[4] = 2
-                                self.tour = 1
-                        elif pos[1] > 332:
-                            if self.net.id == '1' and self.grille[5] == 0 and self.tour == 1:
-                                self.grille[5] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[5] == 0 and self.tour == 0:
-                                self.grille[5] = 2
-                                self.tour = 1
-                    elif pos[0] > 332:
-                        if pos[1] < 166:
-                            if self.net.id == '1' and self.grille[6] == 0 and self.tour == 1:
-                                self.grille[6] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[6] == 0 and self.tour == 0:
-                                self.grille[6] = 2
-                                self.tour = 1
-                        elif pos[1] <= 332:
-                            if self.net.id == '1' and self.grille[7] == 0 and self.tour == 1:
-                                self.grille[7] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[7] == 0 and self.tour == 0:
-                                self.grille[7] = 2
-                                self.tour = 1
-                        elif pos[1] > 332:
-                            if self.net.id == '1' and self.grille[8] == 0 and self.tour == 1:
-                                self.grille[8] = 1
-                                self.tour = 0
-                            elif self.net.id == '0' and self.grille[8] == 0 and self.tour == 0:
-                                self.grille[8] = 2
-                                self.tour = 1
+                # Send Network Stuff
+                # self.player2.x, self.player2.y = self.parse_data(self.send_data())
 
-            # Send Network Stuff
-            # self.player2.x, self.player2.y = self.parse_data(self.send_data())
+                # self.player.draw(self.canvas.get_canvas())
+                # self.player2.draw(self.canvas.get_canvas())
 
-            # self.player.draw(self.canvas.get_canvas())
-            # self.player2.draw(self.canvas.get_canvas())
+                grille, self.tour = self.parse_data(self.send_data())
 
-            grille, self.tour = self.parse_data(self.send_data())
+                if grille != 5:
+                    for i in range(len(self.grille)):
+                        self.grille[i] = int(grille[i])
 
-            if grille != 5:
-                for i in range(len(self.grille)):
-                    self.grille[i] = int(grille[i])
-
-            # Update Canvas
-            self.update_grille(self.grille, rond, croix)
-            self.chek_win(self.grille)
-            self.canvas.update()
+                # Update Canvas
+                self.update_grille(self.grille, rond, croix)
+                self.chek_win(self.grille)
+                self.canvas.update()
+        else:
+            while wait:
+                print("En attente de connexion")
+                self.canvas.update()
+                time.sleep(10)
         pygame.quit()
 
     def send_data(self):
@@ -320,5 +327,3 @@ class FenetreDeJeu:
         pygame.draw.line(self.screen, (0, 0, 0), (332, 20), (332, 480), 2)
         pygame.draw.line(self.screen, (0, 0, 0), (20, 166), (480, 166), 2)
         pygame.draw.line(self.screen, (0, 0, 0), (20, 332), (480, 332), 2)
-
-

@@ -1,7 +1,11 @@
 import socket
+import queue
 from _thread import *
+from datetime import datetime
 import sys
 
+
+q = queue.Queue()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server = '192.168.1.4'
@@ -17,13 +21,17 @@ except socket.error as e:
 s.listen(2)
 print("Waiting for a connection")
 
-currentId = "0"
+currentId = 0
 grille2 = ["0:[0,0,0,0,0,0,0,0,0]/0","1:[0,0,0,0,0,0,0,0,0]/0"]
 
 def threaded_client(conn,):
     global currentId, pos, grille
-    conn.send(str.encode(currentId))
-    currentId = "1"
+    date = datetime.now()
+    print(date)
+    conn.send(str.encode(str(currentId)))
+    currentId += 1
+    q.put(currentId)
+    print(q.qsize())
     reply = ''
     while True:
         try:
@@ -33,7 +41,7 @@ def threaded_client(conn,):
                 conn.send(str.encode("Goodbye"))
                 break
             else:
-                print("Recieved: " + reply)
+                # print("Recieved: " + reply)
                 arr = reply.split(":")
                 id = int(arr[0])
                 grille2[id] = reply
@@ -42,7 +50,7 @@ def threaded_client(conn,):
                 if id == 1: nid = 0
 
                 reply = grille2[nid][:]
-                print("Sending: " + reply)
+                # print("Sending: " + reply)
             conn.sendall(str.encode(reply))
         except:
             break
@@ -50,8 +58,14 @@ def threaded_client(conn,):
     conn.close()
 
 
+
+
+def waiting_file(q):
+    while q.qsize() > 2:
+        q.get()
+        q.get()
+
 while True:
     conn, addr = s.accept()
     print("Connected to: ", addr)
-
     start_new_thread(threaded_client, (conn,))
