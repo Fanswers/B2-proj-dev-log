@@ -41,7 +41,6 @@ class Game:
         self.tour = 0
 
     def run(self):
-
         self.canvas.draw_background()
         clock = pygame.time.Clock()
         run = True
