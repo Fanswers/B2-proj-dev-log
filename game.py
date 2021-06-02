@@ -5,10 +5,12 @@ from network import Network
 class Game:
 
     def __init__(self, w, h):
-        #self.net = Network()
+        self.net = Network()
         self.width = w
         self.height = h
         self.canvas = FenetreConnexion(self.width, self.height, "FenetreConnexion")
+        self.connected = False
+        self.grille = ['0', '0', '0', '0', '0', '0', '0', '0', '0']
 
     def button(self, screen, position, text):
         font = pygame.font.SysFont("Arial", 50)
@@ -32,19 +34,33 @@ class Game:
 
             # Update Canvas
             self.canvas.draw_background()
-            b1 = self.button(self.canvas.screen, (200, 200), 'connexion')
+            b1 = self.button(self.canvas.screen, (100, 200), 'connexion')
+            b2 = self.button(self.canvas.screen, (300, 200), 'deconnexion')
+            b3 = self.button(self.canvas.screen, (200, 300), 'envoi')
             self.canvas.update()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.net.send("deconnexion")
                     run = False
 
                 if event.type == pygame.K_ESCAPE:
+                    self.net.send("deconnexion")
                     run = False
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if b1.collidepoint(pygame.mouse.get_pos()):
-                        pygame.quit()
+                        self.net.connect()
+                    if b2.collidepoint(pygame.mouse.get_pos()):
+                        self.net.send("deconnexion")
+                        self.net.disconnect()
+                    if b3.collidepoint(pygame.mouse.get_pos()):
+                        print(self.net.send(', '.join(self.grille)))
+
+    def send_data(self):
+        data = str('a').encode()
+        reply = self.net.send(data)
+        return reply
 
 
 
