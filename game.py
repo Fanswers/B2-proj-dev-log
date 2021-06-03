@@ -3,30 +3,13 @@ from network import Network
 
 
 class Player():
-    width = height = 50
-
-    def __init__(self, startx, starty, color=(255,255,255)):
-        self.x = startx
-        self.y = starty
-        self.velocity = 2
-        self.color = color
-
-    def draw(self, g):
-        pygame.draw.rect(g, self.color ,(self.x, self.y, self.width, self.height), 0)
-
-    def move(self, dirn):
-        """
-        :param dirn: 0 - 3 (right, left, up, down)
-        :return: None
-        """
-        if dirn == 0:
-            self.x += self.velocity
-        elif dirn == 1:
-            self.x -= self.velocity
-        elif dirn == 2:
-            self.y -= self.velocity
-        else:
-            self.y += self.velocity
+    def __init__(self, NOM, PRENOM, ID, LEVEL, WIN, LOOSE):
+        self.nom = NOM
+        self.prenom = PRENOM
+        self.id = ID
+        self.level = LEVEL
+        self.win = WIN
+        self.loose = LOOSE
 
 
 class Connexion:
@@ -97,8 +80,6 @@ class Game:
         self.net = Network()
         self.width = w
         self.height = h
-        self.player = Player(0, 0)
-        self.player2 = Player(0, 0)
         self.canvas = FenetreDeJeu(self.width, self.height, "FenetreDeJeu")
         self.grille = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.tour = 0
@@ -202,11 +183,6 @@ class Game:
                                 self.tour = 1
 
             # Send Network Stuff
-            # self.player2.x, self.player2.y = self.parse_data(self.send_data())
-
-            # self.player.draw(self.canvas.get_canvas())
-            # self.player2.draw(self.canvas.get_canvas())
-
             grille, self.tour = self.parse_data(self.send_data())
 
             if grille != 5:

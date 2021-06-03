@@ -6,8 +6,8 @@ import BDD
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server = '192.168.1.73'
-port = 25565
+server = '192.168.1.4'
+port = 9991
 server_ip = socket.gethostbyname(server)
 
 try:
@@ -47,7 +47,7 @@ def threaded_client(conn,):
                 conn.sendall(str.encode("Goodbye"))
                 break
             else:
-                print("Recieved: " + reply)
+                #print("Recieved: " + reply)
                 arr = reply.split(":")
                 id = int(arr[0])
                 grille2[id] = reply
@@ -56,7 +56,7 @@ def threaded_client(conn,):
                 if id == 1: nid = 0
 
                 reply = grille2[nid][:]
-                print("Sending: " + reply)
+                #print("Sending: " + reply)
             conn.sendall(str.encode(reply))
         except:
             break
@@ -67,7 +67,7 @@ def threaded_client(conn,):
 
 while True:
     conn, addr = s.accept()
-    print("connect", datetime.now())
     print("Connected to: ", addr)
+    print("connect", datetime.now())
 
     start_new_thread(threaded_client, (conn,))
