@@ -24,7 +24,7 @@ grille2 = ["0:[0,0,0,0,0,0,0,0,0]/0","1:[0,0,0,0,0,0,0,0,0]/0"]
 
 
 def threaded_client(conn,):
-    global currentId, pos, grille
+    global currentId, pos, grille2
     logs = conn.recv(2048).decode('utf-8')
     log1 = logs.split(',')[0]
     log2 = logs.split(',')[1]
@@ -34,8 +34,8 @@ def threaded_client(conn,):
         conn.close()
         return 0
     else:
-        conn.send(str.encode("Vous êtes connectés"))
-    conn.send(str.encode(currentId))
+        conn.sendall(str.encode("Vous êtes connectés"))
+    conn.sendall(str.encode(currentId))
     currentId = "1"
     reply = ''
 
@@ -44,7 +44,7 @@ def threaded_client(conn,):
             data = conn.recv(2048)
             reply = data.decode('utf-8')
             if not data:
-                conn.send(str.encode("Goodbye"))
+                conn.sendall(str.encode("Goodbye"))
                 break
             else:
                 print("Recieved: " + reply)
@@ -60,6 +60,7 @@ def threaded_client(conn,):
             conn.sendall(str.encode(reply))
         except:
             break
+    grille2 = ["0:[0,0,0,0,0,0,0,0,0]/0","1:[0,0,0,0,0,0,0,0,0]/0"]
     print("Connection Closed")
     conn.close()
 
